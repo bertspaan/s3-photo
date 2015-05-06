@@ -1,0 +1,21 @@
+{
+  "basePath": "/Users/bert/Pictures/bertspaan.nl/",
+  "quality": 85,
+  "sizes": [
+    [380, 253],
+    [1280, 800],
+    [1920, 1200]
+  ],
+  "s3": {
+    "region": "eu-west-1",
+    "bucket": "s3.bertspaan.nl"
+  },
+  "dirs": {
+    "photos": {
+      "secret": true,
+      "salt": "salt!"
+    },
+    "ditwas": {
+    }
+  }
+}
