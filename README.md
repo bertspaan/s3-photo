@@ -7,7 +7,7 @@ Uploads photos (JPEG files) to S3, and generates thumbnails. Expects one command
 
 Installation:
 
-    npm install bertspaan/s3-photo
+    npm install -g bertspaan/s3-photo
 
 ## Configuration
 
