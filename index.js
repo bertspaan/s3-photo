@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var fs = require('fs');
 var crypto = require('crypto');
 var path = require('path');

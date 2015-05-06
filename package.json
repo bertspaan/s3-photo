@@ -5,6 +5,9 @@
   "main": "index.js",
   "scripts": {
   },
+  "bin": {
+    "s3-photo": "index.js"
+  },
   "repository" : {
     "type" : "git",
     "url" : "https://github.com/bertspaan/s3-photo.git"
