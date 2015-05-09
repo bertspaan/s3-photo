@@ -7,9 +7,13 @@ var imagemagick = require('imagemagick-native');
 var config = require(process.env.S3_PHOTO_CONFIG);
 var AWS = require('aws-sdk');
 var async = require('async');
+var minimist = require('minimist');
 var colors = require('colors');
 
 var ext = 'jpg';
+
+// Configure Amazon S3
+AWS.config.region = config.s3.region;
 
 if (!process.env.S3_PHOTO_CONFIG) {
   console.error('Please put path of configuration file in S3_PHOTO_CONFIG environment variable');
@@ -31,67 +35,73 @@ if (!(process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY)) {
   process.exit(1);
 }
 
-if (process.argv.length != 3) {
-  console.log('Uploads image and set of thumbnails to S3,\nexpects one argument: JPEG image or directory.');
-  process.exit(1);
-}
-
 String.prototype.endsWith = function(suffix) {
   return this.indexOf(suffix, this.length - suffix.length) !== -1;
 };
 
-var arg = process.argv[2];
+function resolvePath(str) {
+  if (str.substr(0, 2) === '~/') {
+    str = (process.env.HOME || process.env.HOMEPATH || process.env.HOMEDIR || process.cwd()) + str.substr(1);
+  }
+  return path.resolve(str);
+}
 
-// Configure Amazon S3
-AWS.config.region = config.s3.region;
+var args = minimist(process.argv.slice(2))._.map(resolvePath);
 
-if (arg.indexOf(config.basePath) === 0) {
-  fs.exists(arg, function (exists) {
-    if (exists) {
+if (args.length > 0) {
+  async.eachSeries(args, function(arg, callback) {
+    if (arg.indexOf(config.basePath) === 0) {
+      fs.exists(arg, function (exists) {
+        if (exists) {
 
-      var params = {};
-      var secret = getSecret(arg);
+          var params = {};
+          var secret = getSecret(arg);
 
-      if (secret) {
-        params.secret = secret;
-      }
+          if (secret) {
+            params.secret = secret;
+          }
 
-      var stats = fs.lstatSync(arg);
-      if (stats.isDirectory()) {
-        console.log('Processing directory: \'' + arg + '\':');
-        var files = fs.readdirSync(arg).filter(function(file) {
-          return file.endsWith(ext);
-        });
+          var stats = fs.lstatSync(arg);
+          if (stats.isDirectory()) {
+            console.log('Processing directory: \'' + arg + '\':');
+            var files = fs.readdirSync(arg).filter(function(file) {
+              return file.endsWith(ext);
+            });
 
-        var fileIndex = 0;
+            var fileIndex = 0;
 
-        async.eachSeries(files, function(file, callback) {
-          if (file.endsWith(ext)) {
-            console.log('  Processing file ' + (fileIndex + 1) + '/' + files.length + ': \'' + file + '\':');
-            resizeAndUpload(arg + '/' + file, params, function() {
-              fileIndex += 1;
-              callback();
+            async.eachSeries(files, function(file, callback) {
+              if (file.endsWith(ext)) {
+                console.log('  Processing file ' + (fileIndex + 1) + '/' + files.length + ': \'' + file + '\':');
+                resizeAndUpload(arg + '/' + file, params, function() {
+                  fileIndex += 1;
+                  callback();
+                });
+              } else {
+                callback();
+              }
+            }, function(err) {
+              // TODO: done! do something!
+              console.log('Done...');
             });
           } else {
-            callback();
+            console.log('Processing file: \'' + arg + '\':');
+            resizeAndUpload(arg, params, function() {
+              // TODO: done! do something!
+              console.log('Done...');
+              callback();
+            });
           }
-        }, function(err) {
-          // TODO: done! do something!
-          console.log('Done...');
-        });
-      } else {
-        console.log('Processing file: \'' + arg + '\':');
-        resizeAndUpload(arg, params, function() {
-          // TODO: done! do something!
-          console.log('Done...');
-        });
-      }
+        } else {
+          console.error(('File or directory does not exist: \'' + arg + '\'').red);
+        }
+      });
     } else {
-      console.error(('File or directory does not exist: \'' + arg + '\'').red);
+      console.error(('File or directory not under basePath: \'' + arg + '\'').red);
     }
   });
 } else {
-  console.error(('File or directory not under basePath: \'' + arg + '\'').red);
+  console.error('Uploads image and set of thumbnails to S3. Please supply at least one command line argument: path to single photo or to directory containing photos.');
 }
 
 function resizeAndUpload(filename, params, callback) {

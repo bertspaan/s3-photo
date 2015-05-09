@@ -1,9 +1,9 @@
 # s3-photo
 
-Uploads photos (JPEG files) to S3, and generates thumbnails. Expects one command line argument:
+Uploads photos (JPEG files) to S3, and generates thumbnails. Expects one or more command line arguments:
 
 - path to single photo, or
-- path to single directory containing photos.
+- path to directory containing photos.
 
 Installation:
 
@@ -22,7 +22,9 @@ In addition to `S3_PHOTO_CONFIG`, s3-photo expects two environment variables con
 
 ## Basepath
 
-s3-photo will only process files and directories under the directory `basePath`. When uploading to S3, s3-photo does not change the directory structure of uploaded files, but it does add a directory called `sizes` to each upload, containing the thumbnails.
+s3-photo will only process files and directories under the directory `basePath`, set in the configuration file. When uploading to S3, s3-photo does not change the directory structure of uploaded files, but it does add a directory called `sizes` to each upload, containing the thumbnails.
+
+Note: `basePath` must be an absolute path.
 
 ## Thumbnails
 

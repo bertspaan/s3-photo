@@ -1,23 +1,23 @@
 {
   "name": "s3-photo",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Bert Spaan",
   "description": "Uploads photos to S3, and generates thumbnails",
   "main": "index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "bin": {
     "s3-photo": "index.js"
   },
-  "repository" : {
-    "type" : "git",
-    "url" : "https://github.com/bertspaan/s3-photo.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bertspaan/s3-photo.git"
   },
   "license": "MIT",
   "dependencies": {
     "async": "^0.9.0",
     "aws-sdk": "^2.1.26",
     "colors": "^1.0.3",
-    "imagemagick-native": "^1.7.0"
+    "imagemagick-native": "^1.7.0",
+    "minimist": "^1.1.1"
   }
 }
