@@ -94,10 +94,12 @@ if (args.length > 0) {
           }
         } else {
           console.error(('File or directory does not exist: \'' + arg + '\'').red);
+          callback();
         }
       });
     } else {
       console.error(('File or directory not under basePath: \'' + arg + '\'').red);
+      callback();
     }
   });
 } else {
