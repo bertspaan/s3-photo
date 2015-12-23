@@ -1,6 +1,6 @@
 {
   "name": "s3-photo",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Bert Spaan",
   "description": "Uploads photos to S3, and generates thumbnails",
   "main": "index.js",
@@ -19,6 +19,7 @@
     "chalk": "^1.1.1",
     "gm": "^1.21.1",
     "js-yaml": "^3.4.4",
-    "minimist": "^1.2.0"
+    "minimist": "^1.2.0",
+    "unorm": "^1.4.1"
   }
 }
