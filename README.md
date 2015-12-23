@@ -9,11 +9,17 @@ Installation:
 
     npm install -g bertspaan/s3-photo
 
+Also, install GraphicsMagick:
+
+    brew install graphicsmagick
+
 ## Configuration
 
-See `config.example.json` for example configuration file. Copy this file, edit, and set the `S3_PHOTO_CONFIG` environment variable to the absolute path of the configuration file:
+See `config.example.yml` for example configuration file. Copy this file, edit, and set the `S3_PHOTO_CONFIG` environment variable to the absolute path of the configuration file:
 
-    export S3_PHOTO_CONFIG=/Users/bert/.s3-photo-config.json
+    export S3_PHOTO_CONFIG=/Users/bert/.s3-photo-config.yml
+
+Or alternatively, use the `--config` command line option.
 
 In addition to `S3_PHOTO_CONFIG`, s3-photo expects two environment variables containing your S3 access keys:
 
@@ -28,4 +34,4 @@ Note: `basePath` must be an absolute path.
 
 ## Thumbnails
 
-## Sectret directories
+## Secret directories

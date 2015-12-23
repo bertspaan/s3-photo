@@ -1,0 +1,19 @@
+quality: 90
+sizes:
+   - [ 380,  253]
+   - [1280,  800]
+   - [1920, 1200]
+   - [2560, 1600]
+
+s3:
+  region: eu-west-1
+  bucket: s3.bertspaan.nl
+
+dirs:
+  - basePath: /Users/bertspaan/Pictures/Foto's/
+    baseKey: photos
+    secret: true
+    salt: salt!
+
+  - basePath: /Users/bertspaan/Pictures/Dit was/
+    baseKey: ditwas
