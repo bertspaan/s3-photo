@@ -170,7 +170,9 @@ function resizeAndUpload(filename, params, callback) {
     console.log(chalk.green('    Upload complete:') + ' original size');
 
     async.eachSeries(config.sizes, function(size, callback) {
-      var sizeStr = size.join('x');
+      var sizeStr = size.map(function(i) {
+        return i.trim();
+      }).join('x');
       var s3Key = s3BaseKey + 'sizes/' + sizeStr + '/' + basename;
 
       gm(filename)
