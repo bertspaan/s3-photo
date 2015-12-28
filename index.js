@@ -176,7 +176,7 @@ function resizeAndUpload(filename, params, callback) {
       var s3Key = s3BaseKey + 'sizes/' + sizeStr + '/' + basename;
 
       gm(filename)
-        .resize(size[0], size[1])
+        .resize(parseInt(size[0]), parseInt(size[1]))
         .quality(config.quality)
         .stream(function (err, stdout, stderr) {
           if (!err) {
