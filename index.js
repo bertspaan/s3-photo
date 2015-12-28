@@ -171,7 +171,7 @@ function resizeAndUpload(filename, params, callback) {
 
     async.eachSeries(config.sizes, function(size, callback) {
       var sizeStr = size.map(function(i) {
-        return i.trim();
+        return i.toString().trim();
       }).join('x');
       var s3Key = s3BaseKey + 'sizes/' + sizeStr + '/' + basename;
 
