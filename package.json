@@ -1,6 +1,6 @@
 {
   "name": "s3-photo",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "author": "Bert Spaan",
   "description": "Uploads photos to S3, and generates thumbnails",
   "main": "index.js",
